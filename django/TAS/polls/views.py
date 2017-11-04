@@ -1,8 +1,9 @@
-from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import get_object_or_404, render, redirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 from django.views import generic
+
 
 from .models import Choice, Question
 
@@ -55,3 +56,20 @@ def vote(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
+#
+# def signup(request):
+#     if request.method == 'POST':
+#         form = SignUpForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             user.refresh_from_db()  # load the profile instance created by the signal
+#             user.profile.birth_date = form.cleaned_data.get('birth_date')
+#             user.save()
+#             raw_password = form.cleaned_data.get('password1')
+#             user = authenticate(username=user.username, password=raw_password)
+#             login(request, user)
+#             return redirect(reverse('polls:index'))
+#     else:
+#         form = SignUpForm()
+#     return render(request, 'signup.html', {'form': form})
