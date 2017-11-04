@@ -1,10 +1,9 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 from django.views import generic
-
-
 from .models import Choice, Question
 
 

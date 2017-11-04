@@ -13,6 +13,8 @@ from django.dispatch import receiver
 from django.contrib.auth.models import BaseUserManager
 from rolepermissions.roles import assign_role
 
+from TAS import settings
+
 
 class MyUserManager(BaseUserManager):
     """
@@ -30,7 +32,6 @@ class MyUserManager(BaseUserManager):
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save()
-        assign_role(user, 'doctor')
         return user
 
     def create_superuser(self, email, password, **extra_fields):
@@ -84,6 +85,16 @@ class User(AbstractBaseUser, PermissionsMixin):
             [self.email],
             fail_silently=False,
         )
+
+def set_role(sender, instance, created, **kwargs):
+    if created:
+        assign_role(instance, 'voter')
+        instance.role = 'Voter'
+        instance.save()
+
+
+post_save.connect(set_role, sender=settings.AUTH_USER_MODEL)
+
 
 class Question(models.Model):
     question_text = models.CharField(max_length=200)

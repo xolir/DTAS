@@ -8,9 +8,6 @@ from .models import Question, Choice
 
 User = get_user_model()
 
-
-
-
 class CustomUserAdmin(admin.ModelAdmin):
     list_display = ('email', 'name', 'surname', 'birthday', 'is_staff', 'get_role')
 
@@ -20,7 +17,7 @@ class CustomUserAdmin(admin.ModelAdmin):
         return super(CustomUserAdmin, self).get_inline_instances(request, obj)
 
     def get_role(self, instance):
-        return get_user_roles(instance)
+        return instance.role
     get_role.short_description = 'Role'
 
 

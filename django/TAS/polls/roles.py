@@ -1,11 +1,14 @@
 from rolepermissions.roles import AbstractUserRole
 
-class Doctor(AbstractUserRole):
+
+class Voter(AbstractUserRole):
     available_permissions = {
-        'create_medical_record': True,
+        'vote_on_poll': True,
+        'view_votes': True,
     }
 
-class Nurse(AbstractUserRole):
+
+class Candidate(AbstractUserRole):
     available_permissions = {
-        'edit_patient_file': True,
+        'show_user_profile': True,
     }

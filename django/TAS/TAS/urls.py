@@ -23,6 +23,7 @@ from rest_framework import routers, serializers, viewsets
 
 
 # Serializers define the API representation.
+from polls import views
 from polls.forms import MyCustomUserForm
 
 
