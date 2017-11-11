@@ -1,6 +1,12 @@
 from rolepermissions.roles import AbstractUserRole
 
 
+class Admin(AbstractUserRole):
+    available_permissions = {
+        'accept_candidates': True,
+    }
+
+
 class Voter(AbstractUserRole):
     available_permissions = {
         'vote_on_poll': True,

@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 from django.views import generic
-from .models import Choice, Question
+from .models import Choice, Question, Vote
 
 
 class IndexView(generic.ListView):
@@ -39,36 +39,27 @@ class ResultsView(generic.DetailView):
 
 
 def vote(request, question_id):
+    User = get_user_model()
     question = get_object_or_404(Question, pk=question_id)
     try:
-        selected_choice = question.choice_set.get(pk=request.POST['choice'])
-    except (KeyError, Choice.DoesNotExist):
+        selected_choice = question.user.get(pk=request.POST['user'])
+    except (KeyError, User.DoesNotExist):
         # Redisplay the question voting form.
         return render(request, 'polls/detail.html', {
             'question': question,
-            'error_message': "You didn't select a choice.",
+            'error_message': "You didn't select a candidate.",
         })
     else:
-        selected_choice.votes += 1
-        selected_choice.save()
+        try:
+            vote = Vote.objects.get(user_id=selected_choice.id, question_id=question_id)
+            vote.votes += 1
+            vote.save()
+        except Vote.DoesNotExist:
+            latestObj = Vote.objects.latest('id')
+            vote = Vote(latestObj.id + 1, 1, selected_choice.id, question.id)
+            vote.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+    return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
-#
-# def signup(request):
-#     if request.method == 'POST':
-#         form = SignUpForm(request.POST)
-#         if form.is_valid():
-#             user = form.save()
-#             user.refresh_from_db()  # load the profile instance created by the signal
-#             user.profile.birth_date = form.cleaned_data.get('birth_date')
-#             user.save()
-#             raw_password = form.cleaned_data.get('password1')
-#             user = authenticate(username=user.username, password=raw_password)
-#             login(request, user)
-#             return redirect(reverse('polls:index'))
-#     else:
-#         form = SignUpForm()
-#     return render(request, 'signup.html', {'form': form})
