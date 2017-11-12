@@ -117,9 +117,6 @@ class Vote(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     question_id = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name='poll')
 
-    def __str__(self):
-        return self.question_id + " " + self.user_id + " " + self.votes
-
 
 def set_role(sender, instance, created, **kwargs):
     if created:

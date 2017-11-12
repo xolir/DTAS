@@ -55,26 +55,6 @@ class QuestionAdmin(admin.ModelAdmin):
 
 
 class VotesAdmin(admin.ModelAdmin):
-    actions = None
-    list_display_links = None
-    list_display = ('question_id', 'get_Name', 'votes')
-    readonly_fields = ('votes', 'user_id', 'question_id')
-    list_filter = ('question_id', )
-
-    def get_Name(self, obj):
-        userObj = User.objects.get(email=obj.user_id)
-        name = userObj.name
-        surname = userObj.surname
-        return name + " " + surname
-    get_Name.short_description = "Name"
-
-    fieldsets = [
-        (None, {'fields': ()}),
-    ]
-
-
-class VotesAdmin(admin.ModelAdmin):
-    actions = None
     list_display_links = None
     list_display = ('question_id', 'get_Name', 'votes')
     readonly_fields = ('votes', 'user_id', 'question_id')

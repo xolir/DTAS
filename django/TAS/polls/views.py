@@ -1,10 +1,13 @@
 from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.utils import timezone
 from django.views import generic
-from .models import Choice, Question, Vote
+from rest_framework import viewsets
+
+from polls.serializers import UserSerializer, QuestionSerializer, VoteSerializer
+from .models import Question, Vote
 
 
 class IndexView(generic.ListView):
@@ -62,4 +65,23 @@ def vote(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
     return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
+
+############### REST API ##################
+
+class UserViewSet(viewsets.ModelViewSet):
+    User = get_user_model()
+    queryset = User.objects.all().order_by('-surname')
+    serializer_class = UserSerializer
+
+
+class QuestionViewSet(viewsets.ModelViewSet):
+    queryset = Question.objects.all().order_by('-pub_date')
+    serializer_class = QuestionSerializer
+
+
+class VoteViewSet(viewsets.ModelViewSet):
+    queryset = Vote.objects.all().order_by('-question_id')
+    serializer_class = VoteSerializer
+
 
