@@ -15,7 +15,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class QuestionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Question
-        fields = ('question_text', 'user', 'pub_date')
+        fields = ('question_text', 'user', 'pub_date', 'end_date')
 
 
 class VoteSerializer(serializers.HyperlinkedModelSerializer):

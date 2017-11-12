@@ -7,7 +7,7 @@ from django.views import generic
 from rest_framework import viewsets
 
 from polls.serializers import UserSerializer, QuestionSerializer, VoteSerializer
-from .models import Question, Vote
+from .models import Question, Vote, Elector
 
 
 class IndexView(generic.ListView):
@@ -20,8 +20,9 @@ class IndexView(generic.ListView):
         published in the future).
         """
         return Question.objects.filter(
-            pub_date__lte=timezone.now()
-        ).order_by('-pub_date')[:5]
+            pub_date__lte=timezone.now(),
+            end_date__gte=timezone.now()
+        ).order_by('-pub_date')
 
 
 class DetailView(generic.DetailView):
@@ -33,7 +34,17 @@ class DetailView(generic.DetailView):
         Excludes any questions that aren't published yet.
         Makes sure that users won't guess the url.
         """
-        return Question.objects.filter(pub_date__lte=timezone.now())
+        return Question.objects.filter(pub_date__lte=timezone.now(),
+                                       end_date__gte=timezone.now())
+
+
+class FinishedPollsView(generic.ListView):
+    model = Question
+    template_name = 'polls/finishedpolls.html'
+    context_object_name = 'finished_polls_list'
+
+    def get_queryset(self):
+        return Question.objects.filter(pub_date__lte=timezone.now(), end_date__lte=timezone.now())
 
 
 class ResultsView(generic.DetailView):
@@ -54,17 +65,36 @@ def vote(request, question_id):
         })
     else:
         try:
-            vote = Vote.objects.get(user_id=selected_choice.id, question_id=question_id)
-            vote.votes += 1
-            vote.save()
-        except Vote.DoesNotExist:
-            latestObj = Vote.objects.latest('id')
-            vote = Vote(latestObj.id + 1, 1, selected_choice.id, question.id)
-            vote.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
-    return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+            elector = Elector.objects.get(user_id=request.user.id, question_id=question_id, has_voted=True)
+            return render(request, 'polls/detail.html',{
+                'question': question,
+                'error_message': 'You have already voted',
+            })
+        except Elector.DoesNotExist:
+            try:
+                latestElector = Elector.objects.latest('id')
+                elector = Elector(latestElector.id + 1, request.user.id, question_id, True)
+                elector.save()
+                try:
+                    vote = Vote.objects.get(user_id=selected_choice.id, question_id=question_id)
+                    vote.votes += 1
+                    vote.save()
+                except Vote.DoesNotExist:
+                    latestObj = Vote.objects.latest('id')
+                    vote = Vote(latestObj.id + 1, 1, selected_choice.id, question.id)
+                    vote.save()
+            except Elector.DoesNotExist:
+                elector = Elector(1, request.user.id, question_id, True)
+                elector.save()
+                try:
+                    vote = Vote.objects.get(user_id=selected_choice.id, question_id=question_id)
+                    vote.votes += 1
+                    vote.save()
+                except Vote.DoesNotExist:
+                    latestObj = Vote.objects.latest('id')
+                    vote = Vote(latestObj.id + 1, 1, selected_choice.id, question.id)
+                    vote.save()
+        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
 
 ############### REST API ##################
