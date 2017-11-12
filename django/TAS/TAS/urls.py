@@ -60,7 +60,7 @@ urlpatterns = [
     url(r'^accounts/password/reset/auth_password_reset_done$',
         auth_views.password_reset_done,
         name='password_reset_done'),
-    url(r'^accounts/password/reset/confirm/NA/set-password/auth_password_reset_complete$',
+    url(r'auth_password_reset_complete$',
         auth_views.password_reset_complete,
         name='password_reset_complete'),
     url(r'^accounts/password/change$',
