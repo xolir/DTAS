@@ -49,14 +49,8 @@ class QuestionAdmin(admin.ModelAdmin):
     list_filter = ['pub_date']
     search_fields = ['question_text']
 
-    # def getNames(self,obj):
-    #     list_candidates  = User.objects.filter(role='Candidate')
-    #     list_candidates = [i.name + " " + i.surname for i in list_candidates]
-    #     return list_candidates
-
     def render_change_form(self, request, context, *args, **kwargs):
         list_candidates = User.objects.filter(role='Candidate')
-        #list_candidates = [i.name for i in list_candidates]
         context['adminform'].form.fields['user'].queryset = list_candidates
         return super(QuestionAdmin, self).render_change_form(request, context, args, kwargs)
 

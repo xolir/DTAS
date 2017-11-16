@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'polls.apps.PollsConfig',
     'rolepermissions',
     'rest_framework',
-    'rest_registration',
 ]
 
 REST_FRAMEWORK = {
@@ -52,32 +51,20 @@ REST_FRAMEWORK = {
 }
 
 
-
-
-REST_REGISTRATION = {
-    'REGISTER_VERIFICATION_ENABLED': False,
-
-    'RESET_PASSWORD_VERIFICATION_URL': '/reset-password/',
-
-    'REGISTER_EMAIL_VERIFICATION_ENABLED': False,
-
-    'VERIFICATION_FROM_EMAIL': 'no-reply@example.com',
-}
-
 ACCOUNT_ACTIVATION_DAYS = 7
 LOGIN_REDIRECT_URL = 'polls:index'
 AUTH_USER_MODEL = 'polls.User'
 ROLEPERMISSIONS_MODULE = 'polls.roles'
 
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'axeristestmail@gmail.com'
-EMAIL_HOST_PASSWORD = 'djangotestapp'
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'axeristestmail@gmail.com'
+# EMAIL_HOST_PASSWORD = 'djangotestapp'
 
-# EMAIL_HOST = 'localhost'
-# EMAIL_PORT = 1025
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
