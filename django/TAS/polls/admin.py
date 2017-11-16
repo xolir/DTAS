@@ -5,7 +5,7 @@ from rolepermissions.roles import get_user_roles
 from django.forms import CheckboxSelectMultiple
 
 from polls.forms import QuestionForm
-from .models import Question, Choice, Vote
+from .models import Question, Choice, Vote, Elector
 
 User = get_user_model()
 
@@ -37,28 +37,35 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('question_text', 'pub_date', 'was_published_recently',)
+    list_display = ('question_text', 'pub_date', 'end_date', 'was_published_recently', 'has_ended', )
     formfield_overrides = {
         models.ManyToManyField: {'widget': CheckboxSelectMultiple},
     }
     fieldsets = [
         (None,               {'fields': ['question_text']}),
-        ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
+        ('Date information', {'fields': ['pub_date', 'end_date']}),
         ('Candidates', {'fields': ['user']}),
     ]
     list_filter = ['pub_date']
     search_fields = ['question_text']
 
+    # def getNames(self,obj):
+    #     list_candidates  = User.objects.filter(role='Candidate')
+    #     list_candidates = [i.name + " " + i.surname for i in list_candidates]
+    #     return list_candidates
+
     def render_change_form(self, request, context, *args, **kwargs):
-        context['adminform'].form.fields['user'].queryset = User.objects.filter(role='Candidate')
+        list_candidates = User.objects.filter(role='Candidate')
+        #list_candidates = [i.name for i in list_candidates]
+        context['adminform'].form.fields['user'].queryset = list_candidates
         return super(QuestionAdmin, self).render_change_form(request, context, args, kwargs)
 
 
 class VotesAdmin(admin.ModelAdmin):
     list_display_links = None
-    list_display = ('question_id', 'get_Name', 'votes')
+    list_display = ('question_id', 'get_Name', 'user_id', 'votes')
     readonly_fields = ('votes', 'user_id', 'question_id')
-    list_filter = ('question_id', )
+    list_filter = ('question_id', 'user_id', )
 
     def get_Name(self, obj):
         userObj = User.objects.get(email=obj.user_id)
@@ -72,6 +79,25 @@ class VotesAdmin(admin.ModelAdmin):
     ]
 
 
+class ElectorAdmin(admin.ModelAdmin):
+    list_display_links = None
+    list_display = ('question', 'get_Name', 'user', 'has_voted')
+    readonly_fields = ('question', 'user', 'has_voted')
+    list_filter =('question', 'user', )
+
+    def get_Name(self, obj):
+        userObj = User.objects.get(email=obj.user)
+        name = userObj.name
+        surname = userObj.surname
+        return name + " " + surname
+    get_Name.short_description = "Name"
+
+    fieldsets = [
+        (None, {'fields': ()}),
+    ]
+
+
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Vote, VotesAdmin)
+admin.site.register(Elector, ElectorAdmin)

@@ -9,6 +9,9 @@
        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
     {% endfor %}
     </ul>
+    <ul>
+        <a href ="{% url 'polls:finishedpolls' %}">Show results of finished polls.</a>
+    </ul>
 {% else %}
     <p>No polls are available.</p>
 {% endif %}

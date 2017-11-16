@@ -22,14 +22,10 @@ from polls.forms import MyCustomUserForm
 from polls.views import UserViewSet, QuestionViewSet, VoteViewSet
 
 router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
-router.register(r'questions', QuestionViewSet)
-router.register(r'votes', VoteViewSet)
+router.register(r'api/users', UserViewSet)
+router.register(r'api/questions', QuestionViewSet)
+router.register(r'api/votes', VoteViewSet)
 
-
-api_urlpatterns = [
-    url(r'accounts/', include('rest_registration.api.urls')),
-]
 
 urlpatterns = [
     url(r'^polls/', include('polls.urls')),
@@ -55,5 +51,4 @@ urlpatterns = [
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^api/v1/', include(api_urlpatterns)),
 ]

@@ -1,18 +1,13 @@
 import datetime
-
-from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
-from django.db import models
 from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import ugettext_lazy as _
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.db.models.signals import post_save, m2m_changed
 from django.contrib.auth.models import BaseUserManager
 from rolepermissions.roles import assign_role
-
 from TAS import settings
 
 
@@ -20,6 +15,7 @@ class Question(models.Model):
     user = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
+    end_date = models.DateTimeField('ending date')
 
     def __str__(self):
         return self.question_text
@@ -30,6 +26,13 @@ class Question(models.Model):
     was_published_recently.admin_order_field = 'pub_date'
     was_published_recently.boolean = True
     was_published_recently.short_description = 'Published recently?'
+
+    def has_ended(self):
+        now = timezone.now()
+        return self.end_date <= now
+    has_ended.admin_order_field = 'end_date'
+    has_ended.boolean = True
+    has_ended.short_description = 'Has ended?'
 
 
 class Choice(models.Model):
@@ -94,7 +97,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = MyUserManager()
 
     def __str__(self):
-        return self.email
+            return self.name + " " + self.surname
 
     def get_full_name(self):
         return self.email
@@ -118,6 +121,12 @@ class Vote(models.Model):
     question_id = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name='poll')
 
 
+class Elector(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name='poll')
+    has_voted = models.BooleanField(default=False)
+
+
 def set_role(sender, instance, created, **kwargs):
     if created:
         assign_role(instance, 'voter')
@@ -125,58 +134,26 @@ def set_role(sender, instance, created, **kwargs):
         instance.save()
 
 
+def add_candidate_to_vote_table(sender, instance, action, pk_set, **kwargs):
+    if action == 'post_add':
+        users = instance.user.all()
+        for u in users:
+            try:
+                vote = Vote.objects.get(user_id=u.id, question_id=instance.id)
+                continue
+            except Vote.DoesNotExist:
+                try:
+                    latestObj = Vote.objects.latest('id')
+                    vote = Vote(latestObj.id + 1, 0, u.id, instance.id)
+                    vote.save()
+                except Vote.DoesNotExist:
+                    vote = Vote(1, 0, u.id, instance.id)
+                    vote.save()
+    if action == 'pre_remove':
+        for i in pk_set:
+            vote = Vote.objects.get(user_id=i, question_id=instance.id)
+            vote.delete()
+
+
+m2m_changed.connect(add_candidate_to_vote_table, sender=Question.user.through)
 post_save.connect(set_role, sender=settings.AUTH_USER_MODEL)
-
-
-
-
-
-# class Profile(models.Model):
-#     CANDIDATE = 1
-#     VOTER = 2
-#     ROLE_CHOICES =(
-#         (CANDIDATE, 'Candidate'),
-#         (VOTER, 'Voter')
-#     )
-#     birthday = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
-#     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, null=True, blank=True)
-#     votes = models.IntegerField(default=0)
-#     accepted = models.BooleanField(default=False)
-#
-#     def __str__(self):
-#         return self.user.username
-#
-#
-# class Candidate(models.Model):
-#     polls = models.ManyToManyField(Question)
-#     name = models.CharField(max_length=100)
-#     surname = models.CharField(max_length=100)
-#     birthday = models.DateField(auto_now=False, auto_now_add=False)
-#     email = models.EmailField(max_length=254)
-#     votes = models.IntegerField(default=0)
-#     accepted = models.BooleanField(default=False)
-#
-#     def __str__(self):
-#         return self.name + " " + self.surname
-#
-#
-# @receiver(post_save, sender=User)
-# def create_or_update_user_profile(sender, instance, created, **kwargs):
-#     if created:
-#         Profile.objects.create(user=instance)
-#     instance.profile.save()
-#
-#
-# class Voter(models.Model):
-#     name = models.CharField(max_length=100)
-#     surname = models.CharField(max_length=100)
-#     birthday = models.DateField(auto_now=False, auto_now_add=False)
-#     email = models.EmailField(max_length=254)
-#     hasVoted = models.BooleanField(default=False)
-#
-#     def __str__(self):
-#         return self.name + " " + self.surname
-
-
-
-
