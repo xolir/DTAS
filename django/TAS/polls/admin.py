@@ -37,7 +37,11 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 
 class QuestionAdmin(admin.ModelAdmin):
+<<<<<<< HEAD
     list_display = ('question_text', 'pub_date', 'end_date', 'was_published_recently', 'has_ended', )
+=======
+    list_display = ('question_text', 'pub_date', 'end_date', 'was_published_recently', 'has_ended',)
+>>>>>>> ee9c0a5269385d2e31cab2d903a0941a0b94bb5b
     formfield_overrides = {
         models.ManyToManyField: {'widget': CheckboxSelectMultiple},
     }
