@@ -2,5 +2,9 @@
 {% load i18n %}
 
 {% block content %}
-<p>{% trans "You are now registered. Activation email sent." %}</p>
+    {% if user.is_authenticated %}
+    You are already logged in & authenticated!
+    {% else %}
+    <p>{% trans "You are now registered. Activation email sent." %}</p>
+    {% endif %}
 {% endblock %}
