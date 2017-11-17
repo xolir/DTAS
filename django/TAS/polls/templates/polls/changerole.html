@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% load permission_tags %}
+
+{% block content %}
+{% if user.is_authenticated %}
+        {% if not user|has_role:'admin' %}
+            Successfully requested role change!
+        {% endif %}
+        {% if user|has_role:'admin' %}
+            {% if user_list  %}
+                <form action="{% url 'polls:rolechange_save' %}" method="post">
+                {% csrf_token %}
+                {% for user in user_list %}
+                    <input type="checkbox" name="user" id="user{{ forloop.counter }}" value="{{ user.id }}" />
+                    <label for="user{{ forloop.counter }}"> {{ user.name }} {{ user.surname }} {{ user.role }}</label><br />
+                {% endfor %}
+                <input type="submit" value="Save" />
+                </form>
+            {% else %}
+                No users requested role change!
+            {% endif %}
+        {% endif %}
+{% endif %}
+{% endblock %}

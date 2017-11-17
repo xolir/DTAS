@@ -1,13 +1,14 @@
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from django.template.defaultfilters import register
 from django.urls import reverse
 from django.utils import timezone
 from django.views import generic
 from rest_framework import viewsets
-
+from rolepermissions.roles import assign_role, remove_role
 from polls.serializers import UserSerializer, QuestionSerializer, VoteSerializer
-from .models import Question, Vote, Elector
+from .models import Question, Vote, Elector, User
 
 
 class IndexView(generic.ListView):
@@ -50,6 +51,42 @@ class FinishedPollsView(generic.ListView):
 class ResultsView(generic.DetailView):
     model = Question
     template_name = 'polls/results.html'
+
+
+class ChangeRoleView(generic.ListView):
+    model = User
+    template_name = 'polls/changerole.html'
+
+    def get_queryset(self):
+        return User.objects.filter(request_role_change=True)
+
+def change_role(request):
+    user = request.user
+    user.request_role_change = True
+    user.save()
+    return HttpResponseRedirect(reverse('polls:changerole'))
+
+def save_role_change(request):
+    users = request.POST.getlist('user')
+    userslist = []
+    for u in users:
+        userslist.append(User.objects.get(id=int(u)))
+    for u in userslist:
+        if u.role == 'Voter':
+            remove_role(u, 'voter')
+            assign_role(u, 'candidate')
+            u.role = 'Candidate'
+        elif u.role == 'Candidate':
+            remove_role(u, 'candidate')
+            assign_role(u, 'voter')
+            u.role = 'Voter'
+        u.request_role_change = False
+        u.save()
+    return HttpResponseRedirect(reverse('polls:changerole'))
+
+
+
+
 
 
 def vote(request, question_id):

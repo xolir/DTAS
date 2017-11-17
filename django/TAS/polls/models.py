@@ -80,6 +80,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     surname = models.CharField(max_length=100, null=True)
     birthday = models.DateField(auto_now=False, auto_now_add=False, null=True)
     role = models.CharField(max_length=50, null=True)
+    request_role_change = models.BooleanField(
+        _('role change'),
+        default=False,
+        help_text=_('Designates whether the user has requested role change'),
+    )
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,

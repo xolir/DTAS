@@ -11,7 +11,7 @@ User = get_user_model()
 
 
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('email', 'name', 'surname', 'birthday', 'is_staff', 'get_role', 'show_questions',)
+    list_display = ('email', 'name', 'surname', 'birthday', 'request_role_change', 'get_role', 'show_questions',)
 
     def get_inline_instances(self, request, obj=None):
         if not obj:

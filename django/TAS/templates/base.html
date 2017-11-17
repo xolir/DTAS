@@ -1,14 +1,17 @@
 {% load i18n %}
 {% load permission_tags %}
+{% load static %}
+{% load tags %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
-    <title>{% block title %}User test{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}" />
+    <title>{% block title %}Polls{% endblock %}</title>
 </head>
 
 <body>
+
     <div id="header">
     {% block header %}
     <a href="{% url 'polls:index' %}">{% trans "Home" %}</a> |
@@ -16,10 +19,17 @@
     {% if user.is_authenticated %}
         {% trans "Logged in" %}: {{ user.email }} as {{ user.role }}
         (<a href="{% url 'auth_logout' %}">{% trans "Log out" %}</a> | 
-        <a href="{% url 'auth_password_change' %}">{% trans "Change password" %}</a>)
-        {% if user|can:'accept_candidates' %}
-            Accept Candidates
+        <a href="{% url 'auth_password_change' %}">{% trans "Change password" %}</a>
+        {% if user|has_role:'admin' %}
+            {% count_role_changes as tmp %}
+            {% if tmp != 0 %}
+            | <a href="{% url 'polls:changerole' %}">{% trans "Accept role changes" %} </a> ({{ tmp }})
+            {% endif %}
         {% endif %}
+        {% if not user|has_role:'admin' %}
+            | <a href="{% url 'polls:requestrole' %}">{% trans "Change role" %}</a>
+        {% endif %}
+        )
     {% else %}
        <a href="{% url 'auth_login' %}">{% trans "Log in" %}</a> |
         <a href="{% url 'registration_register' %}">{% trans "Register" %}</a>
