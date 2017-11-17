@@ -13,5 +13,8 @@
     </ul>
 {% else %}
     <p>No polls are available.</p>
+        <ul>
+        <a href ="{% url 'polls:finishedpolls' %}">Show results of finished polls.</a>
+    </ul>
 {% endif %}
 {% endblock %}

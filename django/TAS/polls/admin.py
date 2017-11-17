@@ -1,11 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.db import models
-from rolepermissions.roles import get_user_roles
 from django.forms import CheckboxSelectMultiple
-
-from polls.forms import QuestionForm
-from .models import Question, Choice, Vote, Elector
+from .models import Question, Vote, Elector
 
 User = get_user_model()
 
@@ -26,14 +23,6 @@ class CustomUserAdmin(admin.ModelAdmin):
         return "<br>".join([a.question_text for a in obj.question_set.all()])
     show_questions.short_description = 'Questions'
     show_questions.allow_tags = True
-
-
-# class ChoiceInline(admin.TabularInline):
-#     model = User
-#     fields = ('name', 'surname', )
-#     readonly_fields = ('name', 'surname')
-#     can_delete = False
-#     extra = 0
 
 
 class QuestionAdmin(admin.ModelAdmin):

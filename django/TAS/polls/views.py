@@ -60,11 +60,13 @@ class ChangeRoleView(generic.ListView):
     def get_queryset(self):
         return User.objects.filter(request_role_change=True)
 
+
 def change_role(request):
     user = request.user
     user.request_role_change = True
     user.save()
     return HttpResponseRedirect(reverse('polls:changerole'))
+
 
 def save_role_change(request):
     users = request.POST.getlist('user')
@@ -85,10 +87,6 @@ def save_role_change(request):
     return HttpResponseRedirect(reverse('polls:changerole'))
 
 
-
-
-
-
 def vote(request, question_id):
     User = get_user_model()
     question = get_object_or_404(Question, pk=question_id)
@@ -103,7 +101,7 @@ def vote(request, question_id):
     else:
         try:
             elector = Elector.objects.get(user_id=request.user.id, question_id=question_id, has_voted=True)
-            return render(request, 'polls/detail.html',{
+            return render(request, 'polls/detail.html', {
                 'question': question,
                 'error_message': 'You have already voted',
             })
@@ -149,5 +147,3 @@ class QuestionViewSet(viewsets.ModelViewSet):
 class VoteViewSet(viewsets.ModelViewSet):
     queryset = Vote.objects.all().order_by('-question_id')
     serializer_class = VoteSerializer
-
-
