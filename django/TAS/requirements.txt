@@ -2,3 +2,4 @@ django_role_permissions==2.1.0
 Django==1.11.6
 djangorestframework==3.7.3
 django-registration==2.3
+
