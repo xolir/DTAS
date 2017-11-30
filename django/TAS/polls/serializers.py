@@ -8,13 +8,14 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     User = get_user_model()
     class Meta:
         model = get_user_model()
-        fields = ('url', 'email', 'name', 'surname', 'role', 'birthday')
+        fields = ('id', 'url', 'email', 'name', 'surname', 'role', 'birthday')
 
 
 class QuestionSerializer(serializers.HyperlinkedModelSerializer):
+    user = UserSerializer(many=True)
     class Meta:
         model = Question
-        fields = ('question_text', 'user', 'pub_date', 'end_date')
+        fields = ('id', 'question_text', 'user', 'pub_date', 'end_date')
 
 
 class VoteSerializer(serializers.HyperlinkedModelSerializer):

@@ -5,9 +5,16 @@ export default StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '10%',
+    padding: 20,
   },
   navigation: {
     backgroundColor: 'red',
+  },
+  button: {
+    width: 100,
+    color: 'red',
+  },
+  input: {
+    // border
   }
 });

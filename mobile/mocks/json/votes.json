@@ -1,0 +1,7 @@
+[
+  {
+    "question_id": "http://localhost:8000/api/questions/5/",
+    "user_id": "http://localhost:8000/api/users/5/",
+    "votes": 1
+  }
+]
