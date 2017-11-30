@@ -10,10 +10,15 @@ const getQuestionsEndpoint = () => (
 
 const getLoginEndpoint = () => (
   `${apiConfig.apiEndpoint}/???`
+);
+
+const getUserEndpoint = () => (
+  `${apiConfig.apiEndpoint}/users/`
 )
 
 export default {
   getVotesEndpoint,
   getQuestionsEndpoint,
-  getLoginEndpoint
+  getLoginEndpoint,
+  getUserEndpoint
 }

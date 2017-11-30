@@ -19,8 +19,8 @@ const sendLoginRequest = (login, password) => (
 
 const sendVote = (questionId, user_id) => (
   axios.post(endpoints.getVotesEndpoint(), {
-    "question_id": `http://localhost:8000/api/questions/${questionId}`,
-    "user_id": `http://localhost:8000/api/users/${user_id}/`,
+    "question_id": `${endpoints.getVotesEndpoint()}${questionId}/`,
+    "user_id": `${endpoints.getUserEndpoint()}${user_id}/`,
   })
 );
 

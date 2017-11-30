@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.views.decorators.csrf import csrf_exempt
 from registration.backends.hmac.views import RegistrationView
 from rest_framework import routers, serializers, viewsets
 from polls.forms import MyCustomUserForm
@@ -50,5 +51,5 @@ urlpatterns = [
         name='password_change_done'),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'^', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api-auth/', csrf_exempt(include('rest_framework.urls', namespace='rest_framework'))),
 ]
