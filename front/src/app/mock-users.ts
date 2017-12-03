@@ -2,6 +2,7 @@ import { User } from './user';
 
 export const USERS: User[] = [
     {
+        id: 1,
         url: 'http://localhost:4100/api/users/6/',
         email: 'gabi179@gmail.com',
         name: 'Gabriela',
@@ -10,6 +11,7 @@ export const USERS: User[] = [
         birthday: '1995-10-28'
     },
     {
+        id: 2,
         url: 'http://localhost:4100/api/users/1/',
         email: 'axeris123@gmail.com',
         name: 'Artur',
@@ -18,6 +20,7 @@ export const USERS: User[] = [
         birthday: '1996-05-20'
     },
     {
+        id: 3,
         url: 'http://localhost:4100/api/users/5/',
         email: 'artur.nowakowski1@gmail.com',
         name: 'Artur',
@@ -26,6 +29,7 @@ export const USERS: User[] = [
         birthday: '1996-05-20'
     },
     {
+        id: 4,
         url: 'http://localhost:4100/api/users/8/',
         email: 'admin@admin.com',
         name: 'Admin',
