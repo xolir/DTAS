@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'polls.apps.PollsConfig',
     'rolepermissions',
     'rest_framework',
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -58,6 +59,8 @@ LOGIN_REDIRECT_URL = 'polls:index'
 AUTH_USER_MODEL = 'polls.User'
 ROLEPERMISSIONS_MODULE = 'polls.roles'
 
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = ('localhost:4250')
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
@@ -69,6 +72,7 @@ EMAIL_HOST_PASSWORD = 'djangotestapp'
 # EMAIL_PORT = 1025
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

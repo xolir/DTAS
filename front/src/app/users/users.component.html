@@ -8,6 +8,15 @@
     </a>
   </li>
 </ul>
+<div>
+  <label>User name:
+    <input #userName />
+  </label>
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button (click)="add(userName.value); userName.value=''">
+    add
+  </button>
+</div>
 <!-- <app-user-detail [user]="selectedUser"></app-user-detail>
 
 <div *ngIf="selectedUser">
