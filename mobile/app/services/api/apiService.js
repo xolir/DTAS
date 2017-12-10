@@ -18,10 +18,13 @@ const sendLoginRequest = (login, password) => (
 );
 
 const sendVote = (questionId, user_id) => (
-  axios.post(endpoints.getVotesEndpoint(), {
-    "question_id": `${endpoints.getVotesEndpoint()}${questionId}/`,
-    "user_id": `${endpoints.getUserEndpoint()}${user_id}/`,
-  })
+  axios
+    .post(endpoints.getVotesEndpoint(), {
+      "question_id": `${endpoints.getQuestionsEndpoint()}${questionId}/`,
+      "user_id": `${endpoints.getUserEndpoint()}${user_id}/`,
+    })
+    .then(() => 'Vote has been added!')
+    .catch(() => 'Vote has been rejected!')
 );
 
 export default {
