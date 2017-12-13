@@ -1,0 +1,27 @@
+  .button {
+    background-color: #eee;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    cursor: hand;
+    font-family: Arial;
+    display: inline-block;
+  }
+   
+  button.delete:hover {
+    background-color: #cfd8dc;
+  }
+   
+  button.delete {
+    position: relative;
+    background-color: gray !important;
+    color: white;
+    float: right;
+    height: 100%;
+  }
+
+  div {
+    border: .5vw solid black;
+    border-radius: .3vw;
+  }

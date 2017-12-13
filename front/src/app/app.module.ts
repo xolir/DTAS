@@ -11,6 +11,10 @@ import { MessagesComponent } from './messages/messages.component';
 import { MessageService } from './message.service';
 import { AppRoutingModule } from './/app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { UserSearchComponent } from './user-search/user-search.component';
+import { PollsComponent } from './polls/polls.component';
+import { PollService } from './poll.service';
+import { PollDetailComponent } from './poll-detail/poll-detail.component';
 
 
 @NgModule({
@@ -19,14 +23,17 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     UsersComponent,
     UserDetailComponent,
     MessagesComponent,
-    DashboardComponent
+    DashboardComponent,
+    UserSearchComponent,
+    PollsComponent,
+    PollDetailComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule
   ],
-  providers: [UserService, MessageService],
+  providers: [UserService, MessageService, PollService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
