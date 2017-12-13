@@ -14,7 +14,7 @@ const getLoginEndpoint = () => (
 
 const getUserEndpoint = () => (
   `${apiConfig.apiEndpoint}/users/`
-)
+);
 
 export default {
   getVotesEndpoint,
