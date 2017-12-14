@@ -6,11 +6,9 @@ import { UserService } from '../user.service';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  styleUrls: ['./users.component.scss', '../app.component.scss' ]
 })
 export class UsersComponent implements OnInit {
-
-  // selectedUser: User;
 
   users: User[];
 
@@ -20,13 +18,7 @@ export class UsersComponent implements OnInit {
     this.getUsers();
   }
 
-  /*onSelect(user: User): void {
-    this.selectedUser = user;
-  }*/
-
   getUsers(): void {
-    // this.users = this.userService.getUsers();
-    // const name = +this.route.snapshot.paramMap.get('id');
     this.userService.getUsers()
         .subscribe(users => this.users = users);
   }
@@ -40,4 +32,8 @@ export class UsersComponent implements OnInit {
       });
   }
 
+  delete(user: User): void {
+    this.users = this.users.filter(h => h !== user);
+    this.userService.deleteUser(user).subscribe();
+  }
 }

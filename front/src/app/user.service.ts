@@ -27,12 +27,7 @@ export class UserService {
   private log(message: string) {
     this.messageService.add('UserService: ' + message);
   }
-/*
-  getUsers(): Observable<User[]> {
-    this.messageService.add('UserService: fetched users');
-    return of(USERS);
-  }
-*/
+
   getUsers (): Observable<User[]> {
     return this.http.get<User[]>(this.usersUrl)
       .pipe(
@@ -58,8 +53,6 @@ export class UserService {
       tap(_ => this.log(`fetched user id=${id}`)),
       catchError(this.handleError<User>(`getUser id=${id}`))
     );
-    /*this.messageService.add(`UserService: fetched user id=${id}`);
-    return of(USERS.find(user => user.id === id));*/
   }
 
   updateUser (user: User): Observable<any> {
@@ -73,6 +66,26 @@ export class UserService {
     return this.http.post<User>(this.usersUrl, user, httpOptions).pipe(
       tap((user: User) => this.log(`added user w/ id=${user.id}`)),
       catchError(this.handleError<User>('addUser'))
+    );
+  }
+
+  deleteUser (user: User | number): Observable<User> {
+    const id = typeof user === 'number' ? user : user.id;
+    const url = `${this.usersUrl}${id}`;
+
+    return this.http.delete<User>(url, httpOptions).pipe(
+      tap(_ => this.log(`deleted user id=${id}`)),
+      catchError(this.handleError<User>('delete user'))
+    );
+  }
+
+  searchUsers(term: string): Observable<User[]> {
+    if (!term.trim()) {
+      return of([]);
+    }
+    return this.http.get<User[]>(`api/users/?name=${term}`).pipe(
+      tap(_ => this.log(`found users matching ${term}`)),
+      catchError(this.handleError<User[]>('searchUsers', []))
     );
   }
 

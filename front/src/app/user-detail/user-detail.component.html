@@ -6,6 +6,15 @@
       <label>name:
         <input [(ngModel)]="user.name" placeholder="name"/>
       </label>
+      <label>email:
+          <input [(ngModel)]="user.email" placeholder="email"/>
+      </label>
+      <label>surname:
+        <input [(ngModel)]="user.surname" placeholder="surname"/>
+      </label>
+      <label>role:
+        <input [(ngModel)]="user.role" placeholder="role"/>
+      </label>
     </div>
     <button (click)="goBack()">go back</button>
     <button (click)="save()">save</button>

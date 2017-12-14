@@ -2,31 +2,18 @@
 <ul class="users">
   <li *ngFor="let user of users">
     <a routerLink="/detail/{{user.id}}">
-      <!--[class.selected]="user === selectedUser"
-    (click)="onSelect(user)">-->
-      <span class="badge">{{user.email}}</span> {{user.name}}
+      {{user.name}}
     </a>
+    <button class="delete" title="delete user"
+    (click)="delete(user)">x</button>
   </li>
 </ul>
+
 <div>
   <label>User name:
     <input #userName />
   </label>
-  <!-- (click) passes input value to add() and then clears the input -->
   <button (click)="add(userName.value); userName.value=''">
     add
   </button>
 </div>
-<!-- <app-user-detail [user]="selectedUser"></app-user-detail>
-
-<div *ngIf="selectedUser">
- 
-  <h2>{{ selectedUser.name | uppercase }} Details</h2>
-  <div><span>email: </span>{{selectedUser.email}}</div>
-  <div>
-    <label>name:
-      <input [(ngModel)]="selectedUser.name" placeholder="name">
-    </label>
-  </div>
- 
-</div>-->
