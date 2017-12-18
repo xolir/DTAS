@@ -1,4 +1,7 @@
+import { User } from './user';
+
 export class Poll {
-    id = 1;
-    question_text = 'test';
+    id;
+    question_text;
+    user;
 }

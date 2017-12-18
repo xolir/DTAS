@@ -7,10 +7,9 @@ h2 {
   div {
     margin: 2vw 10vw 0vw 10vw;
     background-color: rgb(192, 179, 179);
+    display: none;
   }
-  /*body {
-    margin: 2em;
-  }*/
+
   body, input[text], button {
     color: crimson;
     font-family: Cambria, Georgia;

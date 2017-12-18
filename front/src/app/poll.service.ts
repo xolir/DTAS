@@ -58,21 +58,4 @@ export class PollService {
     );
   }
 
-  addUser (poll: Poll): Observable<Poll> {
-    return this.http.post<Poll>(this.pollsUrl, poll, httpOptions).pipe(
-      tap((poll: Poll) => this.log(`added poll w/ id=${poll.id}`)),
-      catchError(this.handleError<Poll>('addPoll'))
-    );
-  }
-
-  deleteUser (poll: Poll | number): Observable<Poll> {
-    const id = typeof poll === 'number' ? poll : poll.id;
-    const url = `${this.pollsUrl}${id}`;
-
-    return this.http.delete<Poll>(url, httpOptions).pipe(
-      tap(_ => this.log(`deleted poll id=${id}`)),
-      catchError(this.handleError<Poll>('delete poll'))
-    );
-  }
-
 }

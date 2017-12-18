@@ -10,6 +10,7 @@ import { Poll } from '../poll';
   templateUrl: './poll-detail.component.html',
   styleUrls: ['./poll-detail.component.scss']
 })
+
 export class PollDetailComponent implements OnInit {
   @Input() poll: Poll;
 
@@ -27,6 +28,7 @@ export class PollDetailComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('id');
     this.pollService.getPoll(id)
         .subscribe(poll => this.poll = poll);
+    console.log(this.poll.user);
   }
 
   goBack(): void {

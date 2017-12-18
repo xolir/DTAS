@@ -1,8 +1,13 @@
 <h2>The list of all polls</h2>
 <ul class="polls">
   <li *ngFor="let poll of polls">
-      <a routerLink="/question/{{poll.id}}">
+    <button routerLink="/question/{{poll.id}}">
+      {{poll.question_text}}
+    </button>
+  </li>
+</ul>
+      <!--<a routerLink="/question/{{poll.id}}">
         {{poll.question_text}}
       </a>
   </li>
-</ul>
+</ul>-->
