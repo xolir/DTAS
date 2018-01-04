@@ -3,6 +3,7 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
 {% block content %}
+<div class="finishedPolls">
 {% if finished_polls_list %}
     <ul>
     {% for question in finished_polls_list %}
@@ -12,4 +13,5 @@
 {% else %}
     <p>No polls have been finished.</p>
 {% endif %}
+</div>
 {% endblock %}

@@ -34,6 +34,15 @@ class Question(models.Model):
     has_ended.boolean = True
     has_ended.short_description = 'Has ended?'
 
+    def sorted_votes(self):
+        return sorted(self.vote_set.all(), key=lambda vote: vote.votes, reverse=True)
+    
+    def current_leader(self):
+        try:
+            return self.sorted_votes()[0].user_id
+        except:
+            return None
+
 class MyUserManager(BaseUserManager):
     """
     A custom user manager to deal with emails as unique identifiers for auth

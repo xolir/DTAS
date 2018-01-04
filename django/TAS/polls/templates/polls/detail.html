@@ -1,15 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>{{ question.question_text }}</h1>
+<h2>{{ question.question_text }}</h2>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
+<div class="voting">
 <form action="{% url 'polls:vote' question.id %}" method="post">
 {% csrf_token %}
-{% for user in question.user.all %}
-    <input type="radio" name="user" id="user{{ forloop.counter }}" value="{{ user.id }}" />
-    <label for="user{{ forloop.counter }}"> {{ user.email }} {{ user.name }} {{ user.surname }}</label><br />
-{% endfor %}
-<input type="submit" value="Vote" />
+{% if question.user.all|length > 0 %}
+<table>
+    <thead>
+        <tr>
+            <td>select</td>
+            <td>email</td>
+            <td>name</td>
+            <td>surname</td>
+        </tr>
+        
+    </thead>
+    {% for user in question.user.all %}
+    <tr>
+        <td><input type="radio" name="user" id="user{{ forloop.counter }}" value="{{ user.id }}" /></td>
+        <td><label for="user{{ forloop.counter }}"> {{ user.email }}</label></td></label>
+        <td><label for="user{{ forloop.counter }}">{{ user.name }}</label></td>
+        <td><label for="user{{ forloop.counter }}">{{ user.surname }}</label></td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<h2>There are no candidates registred yet</h2>
+{% endif %}
+<input type="submit" value="Vote" class="standardButton"/>
 </form>
+</div>
 {% endblock %}

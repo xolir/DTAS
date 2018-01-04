@@ -2,15 +2,32 @@
 {% load static %}
 
 {% block content %}
+<h2>Polls board</h2>
+<table>
 {% if latest_question_list %}
-    <ul>
+    <thead>
+        <tr>
+            <td>poll</td>
+            <td>leader</td>
+            <td>Ending date</td>
+        </tr>
+    </thead>
     {% for question in latest_question_list %}
-       <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+       <tr>
+           <td><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></td>
+           <td>{{ question.current_leader }}</td>
+           <td>{{ question.end_date }}</td>
+        </tr>
     {% endfor %}
-    </ul>
-    <ul>
-        <a href ="{% url 'polls:finishedpolls' %}">Show results of finished polls.</a>
-    </ul>
+    {% for question in finished_polls_list %}
+        <tr>
+            <td><a href="{% url 'polls:result' question.id %}">{{ question.question_text }}</a></td>
+            <td>{{ question.current_leader }}</td>
+            <td>{{ question.end_date }}</td>
+         </tr>
+    {% endfor %}
+</table>
+       <a href ="{% url 'polls:finishedpolls' %}">Show results of finished polls.</a>
 {% else %}
     <p>No polls are available.</p>
         <ul>

@@ -1,14 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<div class="results">
 <h1>{{ question.question_text }}</h1>
 
-<ul>
 {% if question.has_ended %}
-{% for vote in question.vote_set.all %}
-    <li>{{ vote.user_id.name }} {{ vote.user_id.surname }} -- {{ vote.votes }} vote{{ vote.votes|pluralize }}</li>
-{% endfor %}
-</ul>
+<table>
+        <thead>
+                <tr>
+                    <td>name</td>
+                    <td>surname</td>
+                    <td>votes</td>
+                </tr>
+        </thead>
+{% for vote in question.sorted_votes %}
+<tr>
+    <td>{{ vote.user_id.name }}</td>
+    <td>{{ vote.user_id.surname }}</td>
+    <td>{{ vote.votes }} vote{{ vote.votes|pluralize }}</td>
+</tr>
+    {% endfor %}
+</table>
 {% else %}
     You have successfully voted!
 {% endif %}
+<a href="/polls/finishedpolls">back</a>
+</div>
 {% endblock %}

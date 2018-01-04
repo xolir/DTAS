@@ -5,6 +5,7 @@
     {% if user.is_authenticated %}
     You are already registered & logged in!
     {% else %}
+    <div class="beforeLogging">
     <h2>Registration</h2>
     <form method="post" action=".">
       {% csrf_token %}
@@ -12,5 +13,6 @@
 
       <input type="submit" class="standardButton" value="{% trans 'Submit' %}" />
     </form>
+  </div>
     {% endif %}
 {% endblock %}

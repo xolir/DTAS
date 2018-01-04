@@ -1,5 +1,9 @@
 li a {
-    color: green;
+    color: rgb(0, 0, 146);
+}
+
+a:hover li:hover {
+  color: rgb(228, 222, 222);
 }
 
 body {
@@ -27,15 +31,47 @@ nav a.active {
   color: #039be5;
 }
 
-#content {
+.beforeLogging {
   margin: 5vw 35vw 5vw 35vw;
   border: 1vw solid rgb(0, 0, 146);
   padding: 3vw;
   text-align: center;
 }
 
+.finishedPolls ul {
+  list-style: none;
+}
+
+.finishedPolls li {
+  background-color: rgb(228, 222, 222);
+  border: .2vw solid rgb(0, 0, 146);
+  border-radius: 1vw;
+  color: rgb(0, 0, 146);
+  margin: 1vw;
+  padding: 1vw;
+}
+
+.finishedPolls li:hover {
+  background-color: rgb(0, 0, 146);
+  color: rgb(228, 222, 222);
+}
+
+.finishedPolls a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.results li {
+  list-style: decimal;
+}
+
+.results a {
+  text-decoration: none;
+}
+
 h2 {
   padding-bottom: 2vw;
+  text-align: center;
 }
 
 .standardButton {
@@ -60,4 +96,80 @@ h2 {
   margin: 0vw 2vw 0vw 2vw;
   padding: .5vw;
   font-size: 12px;
+}
+
+.dropbtn {
+  padding: 1vw;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  color: #039be5;
+  background-color: #CFD8DC;
+}
+
+.active_polls li {
+  list-style: decimal;
+  font-size: 2vw;
+  color:  rgb(0, 0, 146);
+}
+
+.active_polls a {
+  text-decoration: none;
+}
+
+thead {
+  color: grey;
+}
+
+td {
+  border-bottom: 1px solid black;
+  padding: .5vw;
+}
+
+tr a{
+  text-decoration: none;
+  color: rgb(59,115,175);
+}
+
+tr:nth-child(even) {
+  background-color: #a3d8f0;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 2vw;
+}
+
+.voting {
+  text-align: center;
 }
