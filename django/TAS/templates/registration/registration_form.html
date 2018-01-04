@@ -5,11 +5,12 @@
     {% if user.is_authenticated %}
     You are already registered & logged in!
     {% else %}
+    <h2>Registration</h2>
     <form method="post" action=".">
       {% csrf_token %}
       {{ form.as_p }}
 
-      <input type="submit" value="{% trans 'Submit' %}" />
+      <input type="submit" class="standardButton" value="{% trans 'Submit' %}" />
     </form>
     {% endif %}
 {% endblock %}

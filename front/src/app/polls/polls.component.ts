@@ -9,7 +9,6 @@ import { PollService } from '../poll.service';
   styleUrls: ['./polls.component.scss', '../app.component.scss']
 })
 export class PollsComponent implements OnInit {
-
   polls: Poll[];
 
   constructor(private pollService: PollService) { }

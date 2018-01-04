@@ -3,4 +3,61 @@ li a {
 }
 
 body {
+	margin: 0vw;
+}
+
+nav {
+  background-color: rgb(0, 0, 146);
+  color: #039be5;
+}
+nav a {
+  padding: 1vw;
+  text-decoration: none;
+  display: inline-block;
+}
+
+nav a:visited, a:link {
+  color: #039be5;
+}
+nav a:hover {
+  color: #039be5;
+  background-color: #CFD8DC;
+}
+nav a.active {
+  color: #039be5;
+}
+
+#content {
+  margin: 5vw 35vw 5vw 35vw;
+  border: 1vw solid rgb(0, 0, 146);
+  padding: 3vw;
+  text-align: center;
+}
+
+h2 {
+  padding-bottom: 2vw;
+}
+
+.standardButton {
+  border: .2vw solid rgb(0, 0, 146);
+  color: rgb(0, 0, 146);
+  padding: 1vw;
+  border-radius: 1vw;
+  font-size: 1vw;
+  font-weight: bold;
+}
+
+.standardButton:hover {
+  background-color: rgb(0, 0, 146);
+  color: white;
+}
+
+.errorlist{
+  border: .1vw solid rgb(223, 217, 217);
+  box-shadow: 1vw grey;
+  list-style-type: none;
+  color: red; 
+  margin: 0vw 2vw 0vw 2vw;
+  padding: .5vw;
+  font-size: 12px;
 }
