@@ -10,10 +10,9 @@
 <table>
     <thead>
         <tr>
-            <td>select</td>
-            <td>email</td>
-            <td>name</td>
-            <td>surname</td>
+            <td>Select</td>
+            <td>Email</td>
+            <td>Name</td>
         </tr>
         
     </thead>
@@ -21,8 +20,7 @@
     <tr>
         <td><input type="radio" name="user" id="user{{ forloop.counter }}" value="{{ user.id }}" /></td>
         <td><label for="user{{ forloop.counter }}"> {{ user.email }}</label></td></label>
-        <td><label for="user{{ forloop.counter }}">{{ user.name }}</label></td>
-        <td><label for="user{{ forloop.counter }}">{{ user.surname }}</label></td>
+        <td><label for="user{{ forloop.counter }}">{{ user.name }} {{ user.surname }}</label></td>
     </tr>
     {% endfor %}
 </table>

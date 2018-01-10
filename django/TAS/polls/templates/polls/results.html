@@ -8,15 +8,13 @@
 <table>
         <thead>
                 <tr>
-                    <td>name</td>
-                    <td>surname</td>
-                    <td>votes</td>
+                    <td>Name</td>
+                    <td>Votes</td>
                 </tr>
         </thead>
 {% for vote in question.sorted_votes %}
 <tr>
-    <td>{{ vote.user_id.name }}</td>
-    <td>{{ vote.user_id.surname }}</td>
+    <td>{{ vote.user_id.name }} {{ vote.user_id.surname }}</td>
     <td>{{ vote.votes }} vote{{ vote.votes|pluralize }}</td>
 </tr>
     {% endfor %}
@@ -24,6 +22,6 @@
 {% else %}
     You have successfully voted!
 {% endif %}
-<a href="/polls/finishedpolls">back</a>
+<a href="/polls/finishedpolls">Back</a>
 </div>
 {% endblock %}

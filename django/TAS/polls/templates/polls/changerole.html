@@ -3,23 +3,41 @@
 {% load permission_tags %}
 
 {% block content %}
+    <div class="finishedPolls">
 {% if user.is_authenticated %}
         {% if not user|has_role:'admin' %}
-            Successfully requested role change!
+            <h2>Successfully requested role change!</h2>
         {% endif %}
         {% if user|has_role:'admin' %}
             {% if user_list  %}
                 <form action="{% url 'polls:rolechange_save' %}" method="post">
                 {% csrf_token %}
+                <table>
+                <thead>
+                <tr>
+                    <td></td>
+                    <td>Name</td>
+                    <td>Current role</td>
+                    <td>Expected role</td>
+                </tr>
+                </thead>
                 {% for user in user_list %}
-                    <input type="checkbox" name="user" id="user{{ forloop.counter }}" value="{{ user.id }}" />
-                    <label for="user{{ forloop.counter }}"> {{ user.name }} {{ user.surname }} {{ user.role }}</label><br />
+                    <tr>
+                    <td><input type="checkbox" name="user" id="user{{ forloop.counter }}" value="{{ user.id }}" /></td>
+{#                    <td><label for="user{{ forloop.counter }}"> {{ user.name }} {{ user.surname }} {{ user.role }}#}
+{#                        {% if user.role == "Voter" %} Candidate {% else %} Voter {% endif %}</label></td>#}
+                        <td><label for="user{{ forloop.counter }}"> {{ user.name }} {{ user.surname }}</label></td>
+                        <td><label for="user{{ forloop.counter }}"> {{ user.role }}</label></td>
+                        <td><label for="user{{ forloop.counter }}"> {% if user.role == "Voter" %} Candidate {% else %} Voter {% endif %}</label></td>
+                    </tr>
                 {% endfor %}
-                <input type="submit" value="Save" />
+                </table>
+                    <h4><input type="submit" value="Save" class="standardButton" /></h4>
                 </form>
             {% else %}
-                No users requested role change!
+                <h2>No users requested role change!</h2>
             {% endif %}
         {% endif %}
 {% endif %}
+    </div>
 {% endblock %}

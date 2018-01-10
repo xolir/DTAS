@@ -74,6 +74,19 @@ h2 {
   text-align: center;
 }
 
+h1 {
+  text-align: center;
+}
+
+h3 {
+    padding-bottom: 2vw;
+    text-align: center;
+}
+
+h4 {
+    text-align: center;
+}
+
 .standardButton {
   border: .2vw solid rgb(0, 0, 146);
   color: rgb(0, 0, 146);
@@ -92,7 +105,7 @@ h2 {
   border: .1vw solid rgb(223, 217, 217);
   box-shadow: 1vw grey;
   list-style-type: none;
-  color: red; 
+  color: red;
   margin: 0vw 2vw 0vw 2vw;
   padding: .5vw;
   font-size: 12px;

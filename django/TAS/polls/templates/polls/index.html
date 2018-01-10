@@ -4,11 +4,13 @@
 {% block content %}
 <h2>Polls board</h2>
 <table>
+
 {% if latest_question_list %}
+    {% if user.is_authenticated %}
     <thead>
         <tr>
-            <td>poll</td>
-            <td>leader</td>
+            <td>Poll</td>
+            <td>Current leader</td>
             <td>Ending date</td>
         </tr>
     </thead>
@@ -27,9 +29,15 @@
          </tr>
     {% endfor %}
 </table>
-       <a href ="{% url 'polls:finishedpolls' %}">Show results of finished polls.</a>
+        {% else %}
+        <tr>
+            <h2>Please log in before trying to vote!</h2>
+        </tr>
+
+{% endif %}
+    <h3><a href ="{% url 'polls:finishedpolls' %}">Show results of finished polls.</a></h3>
 {% else %}
-    <p>No polls are available.</p>
+    <p>No polls are currently available.</p>
         <ul>
         <a href ="{% url 'polls:finishedpolls' %}">Show results of finished polls.</a>
     </ul>
